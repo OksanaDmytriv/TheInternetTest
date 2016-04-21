@@ -7,24 +7,23 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class CustomConditions {
 
-    public static ExpectedCondition<Boolean> exactErrorText(final By locator,
-                                                            final String text) {
+    public static ExpectedCondition<Boolean> exactMessageText(final By locator,
+                                                              final String expectedText) {
         return new ExpectedCondition<Boolean>() {
             private String currentText;
-            private WebElement element;
 
             public Boolean apply(WebDriver webDriver) {
                 try {
-                    element=webDriver.findElement(locator);
+                    WebElement element = webDriver.findElement(locator);
                     currentText = element.getText();
-                    return (currentText.contains(text)) ? true : false;
+                    return currentText.contains(expectedText);
                 } catch (IndexOutOfBoundsException ex) {
                     return null;
                 }
             }
 
             public String toString() {
-                return String.format("\ntext of element should be: %s\n while actual text is: %s\n", text, currentText);
+                return String.format("\nExpected text of element should be: %s\n while current text is: %s\n", expectedText, currentText);
 
             }
         };
